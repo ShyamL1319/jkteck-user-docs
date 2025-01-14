@@ -17,4 +17,10 @@ export class User {
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.VIEWER })
   role: UserRole;
+
+  @Column({ default: new Date() })
+  createdAt: Date;
+
+  @Column({ default: new Date() })
+  updatedAt: Date;
 }
