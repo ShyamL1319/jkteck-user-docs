@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '../user.entity';
 import { UserRepository } from '../user.repository';
@@ -13,8 +14,8 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  async findOne(id: number): Promise<User> {
-    return this.userRepository.findOneBy({ id });
+  async findOne(userData: object): Promise<User> {
+    return this.userRepository.findOneBy({ ...userData });
   }
 
   async create(userData: Partial<User>): Promise<Partial<User>> {
@@ -32,9 +33,23 @@ export class UsersService {
     return user;
   }
 
-  async update(id: number, userData: Partial<User>): Promise<User> {
+  async update(id: number, userData: Partial<User>): Promise<Partial<User>> {
+    const existingUserData: User = await this.findOne({ id });
+
+    if (userData?.roles.length > 0) {
+      const rolesToBeAdded = userData.roles.filter(
+        (role) => !existingUserData.roles.includes(role),
+      );
+      if (rolesToBeAdded.length === 0) {
+        throw new BadRequestException('Roles Already Exists');
+      }
+      userData.roles = [
+        ...new Set([...rolesToBeAdded, ...existingUserData.roles]).values(),
+      ];
+    }
     await this.userRepository.update(id, userData);
-    return this.findOne(id);
+    const { password, ...returnResult } = await this.findOne({ id });
+    return returnResult;
   }
 
   async delete(id: number): Promise<void> {
@@ -50,7 +65,9 @@ export class UsersService {
 
   async signIn(userData: Partial<User>): Promise<Partial<User>> {
     const { email, password } = userData;
-    const user:Partial<User> = await this.userRepository.findOne({ where: { email } });
+    const user: Partial<User> = await this.userRepository.findOne({
+      where: { email },
+    });
 
     if (user && this.validatePassword(password, user.password)) {
       const { password, ...userInfo } = user;
@@ -60,10 +77,10 @@ export class UsersService {
     }
   }
 
-  async validatePassword(password: string, hashPassword:string): Promise<boolean> {
-    return await bcrypt.compare(
-      password,
-      hashPassword,
-    );
+  async validatePassword(
+    password: string,
+    hashPassword: string,
+  ): Promise<boolean> {
+    return await bcrypt.compare(password, hashPassword);
   }
 }

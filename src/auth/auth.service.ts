@@ -9,8 +9,8 @@ export class AuthService {
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
-  async validateUserById(id) {
-    return await this.userService.findOne(id);
+  async validateUserById(userData: object) {
+    return await this.userService.findOne({ ...userData });
   }
 
   async signUp(signupDto: Partial<User>): Promise<Partial<User>> {

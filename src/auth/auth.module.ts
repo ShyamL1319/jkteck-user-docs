@@ -7,10 +7,13 @@ import { UsersService } from 'src/users/services/users.service';
 import { UserRepository } from 'src/users/user.repository';
 import { UsersModule } from 'src/users/users.module';
 import { JwtStrategy } from './jwt.strategy';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { LocalAuthGuard } from './local-auth.guard';
+import { LocalStrategy } from './local.strategy';
 @Module({
   imports: [
     UsersModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'JWT_Secret_JKTechAuthentication',
       signOptions: {
@@ -18,7 +21,15 @@ import { JwtStrategy } from './jwt.strategy';
       },
     }),
   ],
-  providers: [AuthService, UsersService, UserRepository, JwtStrategy],
+  providers: [
+    AuthService,
+    UsersService,
+    UserRepository,
+    JwtStrategy,
+    JwtAuthGuard,
+    LocalAuthGuard,
+    LocalStrategy,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}
