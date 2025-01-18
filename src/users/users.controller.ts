@@ -10,10 +10,10 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { HasRoles } from 'src/utils/has-roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { HasRoles } from '../utils/has-roles.decorator';
 import { UserRole } from './user-role.enum';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {

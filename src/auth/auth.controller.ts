@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
-import { Public } from 'src/utils/is-public.decorator';
+import { Public } from '../utils/is-public.decorator';
 
 @Controller('auth')
 export class AuthController {

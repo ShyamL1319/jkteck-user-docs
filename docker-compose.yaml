@@ -16,6 +16,14 @@ services:
       retries: 3
     networks:
       - backend_network
+  test_database:
+    image: "postgres:latest"
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: test_admin
+      POSTGRES_PASSWORD: test_admin
+      POSTGRES_DB: user_docs_management
   pgadmin:
     depends_on:
       postgres:
