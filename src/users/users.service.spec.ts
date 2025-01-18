@@ -7,7 +7,6 @@ import { getInitializedDataSource } from '../database/datasource.provider';
 
 describe('UsersService', () => {
   let service: UsersService;
-  let configService: ConfigService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [UsersService, ConfigService, UserRepository, DataSource],
@@ -24,7 +23,6 @@ describe('UsersService', () => {
       .compile();
 
     service = module.get<UsersService>(UsersService);
-    configService = module.get<ConfigService>(ConfigService);
   });
 
   it('should be defined', () => {
