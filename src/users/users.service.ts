@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { User } from '../user.entity';
-import { UserRepository } from '../user.repository';
+import { User } from './user.entity';
+import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 @Injectable()
@@ -11,7 +11,10 @@ export class UsersService {
     private readonly configservice: ConfigService,
   ) {}
   async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return (await this.userRepository.find()).map((data) => {
+      delete data.password;
+      return data;
+    });
   }
 
   async findOne(userData: object): Promise<User> {

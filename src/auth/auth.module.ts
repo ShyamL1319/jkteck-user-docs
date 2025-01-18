@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersService } from 'src/users/services/users.service';
+import { UsersService } from 'src/users/users.service';
 import { UserRepository } from 'src/users/user.repository';
 import { UsersModule } from 'src/users/users.module';
 import { JwtStrategy } from './jwt.strategy';
@@ -13,7 +13,7 @@ import { LocalStrategy } from './local.strategy';
 @Module({
   imports: [
     UsersModule,
-    PassportModule,
+    PassportModule.register({ session: true }),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'JWT_Secret_JKTechAuthentication',
       signOptions: {

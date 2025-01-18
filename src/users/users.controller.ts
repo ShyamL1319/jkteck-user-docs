@@ -8,11 +8,11 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
-import { User } from '../user.entity';
+import { UsersService } from './users.service';
+import { User } from './user.entity';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { HasRoles } from 'src/utils/has-roles.decorator';
-import { UserRole } from '../user-role.enum';
+import { UserRole } from './user-role.enum';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('users')
