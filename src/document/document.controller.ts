@@ -11,6 +11,7 @@ import {
   UsePipes,
   ValidationPipe,
   Res,
+  Inject,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateDocumentDto } from './dto/create-document.dto';
@@ -28,6 +29,7 @@ import {
   ApiConsumes,
   ApiParam,
 } from '@nestjs/swagger';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Controller('documents')
 export class DocumentController {
@@ -65,7 +67,8 @@ export class DocumentController {
     @Body() createDocumentDto: CreateDocumentDto,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<Document> {
-    return this.documentService.upload(createDocumentDto, file.path);
+    const document = this.documentService.upload(createDocumentDto, file.path);
+    return document;
   }
 
   @Get('download/:id')
@@ -73,15 +76,17 @@ export class DocumentController {
     @Param('id') id: number,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const { fileName, filepath } = await this.documentService.downloadFile({
-      id: +id,
-    });
-    response.set({
-      'Content-Type': 'application/json',
-      'Content-Disposition': `attachment;filename=${fileName}`,
-    });
+    const { file, fileName, filepath } =
+      await this.documentService.downloadFile({
+        id: +id,
+      });
+    file.pipe(response);
+    // response.set({
+    //   'Content-Type': 'application/json',
+    //   'Content-Disposition': `attachment;filename=${fileName}`,
+    // });
     // return new StreamableFile(file);
-    return response.sendFile(filepath, { root: './../../' });
+    // return response.sendFile(filepath, { root: './../../' });
   }
 
   /**

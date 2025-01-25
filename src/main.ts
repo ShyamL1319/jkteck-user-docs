@@ -1,11 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as morgan from "morgan"
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+import * as morgan from 'morgan';
 
-  app.use(morgan("common"));
+async function bootstrap() {
+  const app = await NestFactory.create<any>(AppModule);
+
+  app.use(morgan('common'));
+
+  await app.startAllMicroservices();
   const document = SwaggerModule.createDocument(
     app,
     new DocumentBuilder()

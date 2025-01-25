@@ -10,6 +10,8 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { DocumentModule } from './document/document.module';
 // import { AppLoggerMiddleware } from './utils/middlewares/logging.middleware';
 import { ErrorsInterceptor } from './utils/interceptors/error.interceptor';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { KafkaModule } from './kafka/kafka.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,6 +22,7 @@ import { ErrorsInterceptor } from './utils/interceptors/error.interceptor';
     UsersModule,
     AuthModule,
     DocumentModule,
+    KafkaModule,
   ],
   controllers: [AppController],
   providers: [

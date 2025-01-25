@@ -1,0 +1,369 @@
+{
+	"info": {
+		"_postman_id": "f8f31910-a56f-48d7-a67b-522887f69c13",
+		"name": "JKTech",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12535703"
+	},
+	"item": [
+		{
+			"name": "Get Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUmVzdWx0Ijp7ImlkIjoxLCJuYW1lIjoiU2h5YW0iLCJlbWFpbCI6InNoeWFtLmxhbEBnbWFpbC5jb20iLCJyb2xlcyI6WyJ2aWV3ZXIiLCJhZG1pbiJdLCJjcmVhdGVkQXQiOiIyMDI1LTAxLTI1VDE2OjA3OjU2LjY4NloiLCJ1cGRhdGVkQXQiOiIyMDI1LTAxLTI1VDE2OjA3OjU2LjY4NloifSwiaWF0IjoxNzM3ODM5OTY2LCJleHAiOjE3Mzc4NDM1NjZ9.akm6XIKQ0svmLKQJcBLU8kLzYqVitzfT6Besv56AR4I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get files",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUmVzdWx0Ijp7ImlkIjoxMCwibmFtZSI6IlNoeWFtIiwiZW1haWwiOiJzaHlhbS5sYWwxMEBnbWFpbC5jb20iLCJyb2xlcyI6WyJhZG1pbiJdLCJjcmVhdGVkQXQiOiIyMDI1LTAxLTE0VDIzOjIxOjQxLjA5MFoiLCJ1cGRhdGVkQXQiOiIyMDI1LTAxLTE0VDIzOjIxOjQxLjA5MFoifSwiaWF0IjoxNzM3MDc0Nzg2LCJleHAiOjE3MzcwNzgzODZ9.cpSLKQb2UHIHGGP68m0-p0uWJwQf7Kg_F6cCZ37DlPc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUmVzdWx0Ijp7ImlkIjo5LCJuYW1lIjoiU2h5YW0iLCJlbWFpbCI6InNoeWFtLmxhbDhAZ21haWwuY29tIiwicm9sZXMiOlsiYWRtaW4iXSwiY3JlYXRlZEF0IjoiMjAyNS0wMS0xNFQyMzoxMzozNy4zMzFaIiwidXBkYXRlZEF0IjoiMjAyNS0wMS0xNFQyMzoxMzozNy4zMzFaIn0sImlhdCI6MTczNjkxNjQ3MiwiZXhwIjoxNzM2OTIwMDcyfQ.iCL8jyNie2XK70Oiu-ZkqKB30VpceESCoWVaNWsDJqI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Shyam\",\n    \"email\": \"shyam.lal@gmail.com\",\n    \"password\": \"Shyam@1319\",\n    \"roles\": [\"admin\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUmVzdWx0Ijp7ImlkIjoxLCJuYW1lIjoiU2h5YW0iLCJlbWFpbCI6InNoeWFtLmxhbDEzQGdtYWlsLmNvbSIsInJvbGVzIjpbImFkbWluIl0sImNyZWF0ZWRBdCI6IjIwMjUtMDEtMTdUMjI6MTM6MDMuNDI4WiIsInVwZGF0ZWRBdCI6IjIwMjUtMDEtMTdUMjI6MTM6MDMuNDI4WiJ9LCJpYXQiOjE3MzcxNzE5OTEsImV4cCI6MTczNzE3NTU5MX0.24VrwKwwYk6O7zIkH4l_IQ9N5IF_DuZfFHXzg9W-Nyw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"roles\":[\"viewer\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Document",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUmVzdWx0Ijp7ImlkIjoxLCJuYW1lIjoiU2h5YW0iLCJlbWFpbCI6InNoeWFtLmxhbEBnbWFpbC5jb20iLCJyb2xlcyI6WyJhZG1pbiJdLCJjcmVhdGVkQXQiOiIyMDI1LTAxLTE4VDAyOjA1OjA2LjgyOFoiLCJ1cGRhdGVkQXQiOiIyMDI1LTAxLTE4VDAyOjA1OjA2LjgyOFoifSwiaWF0IjoxNzM3MTg1ODExLCJleHAiOjE3MzcxODk0MTF9.0Zs8szsu2giQqpUrJ9CEgdrj-YqynFTYoV5ZS3Y8vQ4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "updated title 5",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/shyamlal/Downloads/1002795609_20240116-223707.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/documents/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"documents",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Document",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var template = `",
+							"<a href={{response}} download>Download File</a>",
+							"`;",
+							"",
+							"function constructVisualizerPayload() {",
+							"    return { response: pm.response.text() }",
+							"}",
+							"",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUmVzdWx0Ijp7ImlkIjoxLCJuYW1lIjoiU2h5YW0iLCJlbWFpbCI6InNoeWFtLmxhbEBnbWFpbC5jb20iLCJyb2xlcyI6WyJhZG1pbiJdLCJjcmVhdGVkQXQiOiIyMDI1LTAxLTE4VDAyOjA1OjA2LjgyOFoiLCJ1cGRhdGVkQXQiOiIyMDI1LTAxLTE4VDAyOjA1OjA2LjgyOFoifSwiaWF0IjoxNzM3MTk0MDM0LCJleHAiOjE3MzcxOTc2MzR9.w597_wHbeYifwrd8XcvLic_aJaYtsiYRl0EkEI2xARE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "updated title 5",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/shyamlal/Desktop/ScreenShots/Screenshot 2024-12-11 at 02.13.41.png",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/documents/download/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"documents",
+						"download",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Shyam\",\n    \"email\": \"shyam.lal@gmail.com\",\n    \"password\": \"Shyam@1319\",\n    \"roles\": [\"admin\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\": \"Shyam@1319\",\n    \"email\": \"shyam.lal@gmail.com\"\n   \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "File upload",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUmVzdWx0Ijp7ImlkIjoxLCJuYW1lIjoiU2h5YW0iLCJlbWFpbCI6InNoeWFtLmxhbEBnbWFpbC5jb20iLCJyb2xlcyI6WyJ2aWV3ZXIiXSwiY3JlYXRlZEF0IjoiMjAyNS0wMS0yNVQxNjowNzo1Ni42ODZaIiwidXBkYXRlZEF0IjoiMjAyNS0wMS0yNVQxNjowNzo1Ni42ODZaIn0sImlhdCI6MTczNzgyMTU5NCwiZXhwIjoxNzM3ODI1MTk0fQ.VZFiB3fdDih1iR3gh1v-gDDf201CLoqnUz2Zx5SbZEk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/shyamlal/Downloads/file-1737182002684.png..png"
+						},
+						{
+							"key": "title",
+							"value": "dcument test",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "File upload test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/documents/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"documents",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

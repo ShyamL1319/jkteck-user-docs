@@ -5,7 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Document } from './entities/document.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
-
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { KafkaModule } from 'src/kafka/kafka.module';
 @Module({
   imports: [
     MulterModule.registerAsync({
@@ -16,6 +17,7 @@ import { MulterModule } from '@nestjs/platform-express';
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Document]),
+    KafkaModule,
   ],
   providers: [DocumentService],
   controllers: [DocumentController],

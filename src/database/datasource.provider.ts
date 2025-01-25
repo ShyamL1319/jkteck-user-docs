@@ -12,13 +12,12 @@ export const getInitializedDataSource = (
 ): Promise<DataSource> => {
   const dataSource = new DataSource({
     type: 'postgres',
-    host: process.env.DATABASE_HOST,
-    username: process.env.DATABASE_USER || 'admin',
-    password: process.env.DATABASE_PASSWORD || 'admin',
+    host: process.env.DATABASE_HOST || 'localhost',
+    username: process.env.DATABASE_USER || 'conduktor',
+    password: process.env.DATABASE_PASSWORD || 'change_me',
     entities: [User],
-    database:
-      database || process.env.POSTGRES_TEST_DB || 'user_docs_management_test',
-    port: parseInt(port || process.env.DATABASE_PORT),
+    database: database || process.env.DATABASE_NAME || 'user_docs_management',
+    port: parseInt(port || process.env.DATABASE_PORT) || 5432,
   } as DataSourceOptions);
 
   return dataSource.initialize();

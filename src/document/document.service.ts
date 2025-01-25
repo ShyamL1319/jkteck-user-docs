@@ -1,5 +1,9 @@
-// src/document/document.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Inject,
+  OnModuleInit,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateDocumentDto } from './dto/create-document.dto';
@@ -7,12 +11,14 @@ import { UpdateDocumentDto } from './dto/update-document.dto';
 import { Document } from './entities/document.entity';
 import { createReadStream } from 'fs';
 import { basename, extname, join } from 'path';
-
+import { ClientKafka } from '@nestjs/microservices';
+import { KafkaService } from 'src/kafka/kafka.service';
 @Injectable()
 export class DocumentService {
   constructor(
     @InjectRepository(Document)
     private readonly documentRepository: Repository<Document>,
+    private readonly kafkaService: KafkaService,
   ) {}
   /**
    * Create a new document
@@ -28,6 +34,11 @@ export class DocumentService {
       ...createDocumentDto,
       filePath,
     });
+    this.kafkaService.sendMessage(
+      'document-ingestion',
+      'document-added',
+      document,
+    );
     return this.documentRepository.save(document);
   }
 
@@ -44,6 +55,11 @@ export class DocumentService {
     }
     const filepath = join(process.cwd(), fileFound.filePath);
     const file = await createReadStream(filepath);
+    this.kafkaService.sendMessage(
+      'document-ingestion',
+      'document-downloaded',
+      fileFound,
+    );
     return {
       file,
       fileName: fileFound.title + '_' + basename(filepath),
@@ -87,6 +103,11 @@ export class DocumentService {
   ): Promise<Document> {
     const document = await this.findOne(id);
     Object.assign(document, updateDocumentDto);
+    this.kafkaService.sendMessage(
+      'document-ingestion',
+      'document-updated',
+      document,
+    );
     return this.documentRepository.save(document);
   }
 
@@ -98,6 +119,11 @@ export class DocumentService {
    */
   async remove(id: number): Promise<void> {
     const document = await this.findOne(id);
+    this.kafkaService.sendMessage(
+      'document-ingestion',
+      'document-deleted',
+      document,
+    );
     await this.documentRepository.remove(document);
   }
 }

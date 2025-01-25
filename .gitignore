@@ -3,6 +3,22 @@
 /node_modules
 /build
 
+ingestion-service/dist
+ingestion-service/node_modules
+ingestion-service/build
+
+zookeeper/data/*
+zookeeper/log/*
+volumes/
+# Logs
+ingestion-service/logs
+ingestion-service/*.log
+ingestion-service/npm-debug.log*
+ingestion-service/pnpm-debug.log*
+ingestion-service/yarn-debug.log*
+ingestion-service/yarn-error.log*
+ingestion-service/lerna-debug.log*
+
 # Logs
 logs
 *.log
@@ -15,9 +31,16 @@ lerna-debug.log*
 # OS
 .DS_Store
 
+# OS
+ingestion-service/.DS_Store
+
 # Tests
 /coverage
 /.nyc_output
+
+# Tests
+ingestion-service/coverage
+ingestion-service/.nyc_output
 
 # IDEs and editors
 /.idea
@@ -28,6 +51,16 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 
+
+# IDEs and editors
+ingestion-service/.idea
+ingestion-service/.project
+ingestion-service/.classpath
+ingestion-service/.c9/
+ingestion-service/*.launch
+ingestion-service/.settings/
+ingestion-service/*.sublime-workspace
+
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
@@ -35,11 +68,30 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+
+# IDE - VSCode
+ingestion-service/.vscode/*
+ingestion-service/!.vscode/settings.json
+ingestion-service/!.vscode/tasks.json
+ingestion-service/!.vscode/launch.json
+ingestion-service/!.vscode/extensions.json
+
+# dotenv environment variable files
+ingestion-service/.env
+ingestion-service/.env.development
+ingestion-service/.env.staging
+ingestion-service/.env.production
+
 # dotenv environment variable files
 .env
 .env.development
 .env.staging
 .env.production
+
+# temp directory
+ingestion-service/.temp
+ingestion-service/.tmp
+ingestion-service/uploads/*
 
 # temp directory
 .temp
@@ -52,5 +104,15 @@ pids
 *.seed
 *.pid.lock
 
+# Runtime data
+ingestion-service/pids
+ingestion-service/*.pid
+ingestion-service/*.seed
+ingestion-service/*.pid.lock
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+ingestion-service/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.jsonv
+ingestion-service

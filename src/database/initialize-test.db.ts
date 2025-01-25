@@ -3,8 +3,8 @@ import { getInitializedDataSource } from './datasource.provider';
 async function initTestDatabase() {
   try {
     const dataSource = await getInitializedDataSource(
-      process.env.POSTGRES_TEST_DB,
-      process.env.POSTGRES_TEST_PORT,
+      process.env.DATABASE_HOST,
+      process.env.POSTGRES_PORT,
     );
 
     await dataSource.synchronize();

@@ -60,32 +60,45 @@ Includes Docker Compose in Docker Desktop installations.
 # Follow below steps to get running the apps
 
 ```bash
-  $ git clone repo
+  $ git clone https://github.com/ShyamL1319/jkteck-user-docs.git
 
 ```
-
+# Go to project directory jkteck-user-docs
 ```bash
-  $ npm install
-
+  $ npm install #if you face any issue please include --leegacy-peer-deps
+  $ npm run start:docker # it will start services like db pgadmin ui kafka and conduktor to manage and monitoring apps
+  $ npm run start:dev #It will start your local server now you can hit local server or docker running services 
 ```
-
-# This step is to use postresdb via docker and ui in browser if you have installed no need to follow this instead use your local db config details
-
+# Go to project directory jkteck-user-docs/ingestion-service
 ```bash
-  $ npm run start:docker
+  $ npm install #if you face any issue please include --leegacy-peer-deps
+  $ npm run start:dev #It will start your local server
 ```
+# Connect DB via docker and ui in browser if you have installed use your local db config details
 
 # Create .env.development file that will contains details like
 
 ```bash
-APPNAME='Docs-User-Management-Application'
-APPVERSION='v1.0'
+APPNAME=Docs-User-Management-Application
+APPVERSION=v1.0
 APP_PORT=3000
-DATABASE_HOST='localhost'
+
+DATABASE_HOST=localhost
 DATABASE_PORT=5432
-DATABASE_USERNAME='******'
-DATABASE_PASSWORD='******'
-DATABASE_NAME='******'
+DATABASE_USERNAME=**********
+DATABASE_PASSWORD=**********
+DATABASE_NAME=user_docs_management
+
+POSTGRES_TEST_DB="user_docs_management_test"
+POSTGRES_TEST_PORT=5432
+MULTER_DEST='./uploads'
+JWT_SECRET='*******'
+PASSWORD_ENCRYTING_SALT='*****'
+
+CONFLUENT_API_KEY='*********'
+CONFLUENT_API_SECRET=********
+KAFKA_BROKER_URL=kafka:19092
+KAFKA_CLIENT_ID=document-producer-client-id
 ```
 
 ```bash
@@ -105,9 +118,9 @@ $ npm run start:prod
 ```bsh
 This application is running on: http://[::1]:3000
 ```
+# Now import postman collection from post_collection.json  hit to register user and login try to get details using the access token recieved in login
 
 ## 🔧 Running the tests <a name = "tests"></a>
-
 ```bash
 # unit tests
 $ npm run test
@@ -119,42 +132,26 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
+## 🎈 Usage <a name="usage"></a>
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Add notes about how to use the system.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 🚀 Deployment <a name = "deployment"></a>
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+Add additional notes about how to deploy this on a live system.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## ⛏️ Built Using <a name = "built_using"></a>
 
-## Resources
+- [NodeJs](https://nodejs.org/en/) - Server Environment
 
-Check out a few resources that may come in handy when working with NestJS:
+## ✍️ Authors <a name = "authors"></a>
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
 
-## Support
+See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- Hat tip to anyone whose code was used
+- Inspiration
+- References
