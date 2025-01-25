@@ -9,7 +9,7 @@ ingestion-service/build
 
 zookeeper/data/*
 zookeeper/log/*
-volumes/
+volumes/*
 # Logs
 ingestion-service/logs
 ingestion-service/*.log
@@ -115,4 +115,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 ingestion-service/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.jsonv
-ingestion-service
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.jsonv
