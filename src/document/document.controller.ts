@@ -20,7 +20,7 @@ import { DocumentService } from './document.service';
 import { Document } from './entities/document.entity';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { FileSizeValidationPipe } from 'src/utils/pipes/file-size-validator.pipe';
+import { FileSizeValidationPipe } from '../utils/pipes/file-size-validator.pipe';
 import type { Response } from 'express';
 import {
   ApiOperation,

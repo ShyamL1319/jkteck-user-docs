@@ -12,7 +12,7 @@ import { Document } from './entities/document.entity';
 import { createReadStream } from 'fs';
 import { basename, extname, join } from 'path';
 import { ClientKafka } from '@nestjs/microservices';
-import { KafkaService } from 'src/kafka/kafka.service';
+import { KafkaService } from '../kafka/kafka.service';
 @Injectable()
 export class DocumentService {
   constructor(

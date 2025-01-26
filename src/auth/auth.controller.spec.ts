@@ -1,43 +1,83 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
-import { UsersService } from '../users/users.service';
-import { UserRepository } from '../users/user.repository';
-import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { DataSource } from 'typeorm';
-import { getInitializedDataSource } from '../database/datasource.provider';
+import { User } from '../users/user.entity';
 
 describe('AuthController', () => {
-  let controller: AuthController;
+  let authController: AuthController;
+  let authService: jest.Mocked<AuthService>;
+
+  const mockAuthService = {
+    signUp: jest.fn(),
+    login: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
-        UsersService,
-        UserRepository,
-        ConfigService,
-        AuthService,
-        JwtService,
-        DataSource,
-      ],
-    })
-      .overrideProvider(DataSource)
-      .useFactory({
-        factory: async (): Promise<DataSource> => {
-          return getInitializedDataSource(
-            process.env.POSTGRES_TEST_DB || 'user_docs_management_test',
-            process.env.POSTGRES_TEST_PORT || '5432',
-          );
+        {
+          provide: AuthService,
+          useValue: mockAuthService,
         },
-      })
-      .compile();
+      ],
+    }).compile();
 
-    controller = module.get<AuthController>(AuthController);
+    authController = module.get<AuthController>(AuthController);
+    authService = module.get(AuthService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(authController).toBeDefined();
+  });
+
+  describe('signup', () => {
+    it('should call AuthService.signUp with correct parameters and return result', async () => {
+      const signupDto: Partial<User> = {
+        email: 'testuser',
+        password: 'password123',
+      };
+      const expectedResponse: Partial<User> = { id: 1, email: 'testuser' };
+
+      authService.signUp.mockResolvedValue(expectedResponse);
+
+      const result = await authController.signup(signupDto);
+
+      expect(authService.signUp).toHaveBeenCalledWith(signupDto);
+      expect(result).toEqual(expectedResponse);
+    });
+  });
+
+  describe('login', () => {
+    it('should call AuthService.login with correct parameters and return result', async () => {
+      const loginDto: Partial<User> = {
+        email: 'testuser',
+        password: 'password123',
+      };
+      const expectedResponse: Partial<User> = {
+        id: 1,
+        email: 'testuser',
+        password: 'abc123',
+      };
+
+      authService.login.mockResolvedValue(expectedResponse);
+
+      const result = await authController.login(loginDto);
+
+      expect(authService.login).toHaveBeenCalledWith(loginDto);
+      expect(result).toEqual(expectedResponse);
+    });
+  });
+
+  describe('logout', () => {
+    it('should call req.logout and return undefined', async () => {
+      const mockRequest = {
+        logout: jest.fn(),
+      };
+
+      await authController.logout(mockRequest);
+
+      expect(mockRequest.logout).toHaveBeenCalled();
+    });
   });
 });

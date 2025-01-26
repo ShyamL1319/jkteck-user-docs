@@ -1,60 +1,133 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { UsersModule } from '../users/users.module';
-import { UserRepository } from '../users/user.repository';
-import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { DataSource } from 'typeorm';
+import { UsersService } from '../users/users.service';
 import { UnauthorizedException } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseModule } from '../database/database.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/user.entity';
-import { getInitializedDataSource } from '../database/datasource.provider';
+import { UserRole } from '../users/user-role.enum';
 
 describe('AuthService', () => {
-  let service: AuthService;
-  let usersService: UsersService;
-  let userRepository: UserRepository;
-  let jwtService: JwtService;
+  let authService: AuthService;
+  let userService: jest.Mocked<UsersService>;
+  let jwtService: jest.Mocked<JwtService>;
+
+  const mockUserService = {
+    findOne: jest.fn(),
+    create: jest.fn(),
+    signIn: jest.fn(),
+  };
+
+  const mockJwtService = {
+    sign: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [UsersModule, DatabaseModule],
       providers: [
         AuthService,
-        UsersService,
-        UserRepository,
-        JwtService,
-        ConfigService,
-      ],
-    })
-      .overrideProvider(DataSource)
-      .useFactory({
-        factory: async (): Promise<DataSource> => {
-          return getInitializedDataSource(
-            process.env.POSTGRES_TEST_DB || 'user_docs_management_test',
-            process.env.POSTGRES_TEST_PORT || '5432',
-          );
+        {
+          provide: UsersService,
+          useValue: mockUserService,
         },
-      })
-      .compile();
+        {
+          provide: JwtService,
+          useValue: mockJwtService,
+        },
+      ],
+    }).compile();
 
-    service = module.get<AuthService>(AuthService);
-    usersService = module.get<UsersService>(UsersService);
-    userRepository = module.get<UserRepository>(UserRepository);
-    jwtService = module.get<JwtService>(JwtService);
+    authService = module.get<AuthService>(AuthService);
+    userService = module.get(UsersService);
+    jwtService = module.get(JwtService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(authService).toBeDefined();
   });
 
-  it('should throw UnauthorizedException if login credentials are invalid', async () => {
-    const loginDto = { email: 'test', password: 'wrong' };
-    jest.spyOn(usersService, 'signIn').mockResolvedValue(null);
+  describe('validateUserById', () => {
+    it('should call UsersService.findOne with correct parameters and return the result', async () => {
+      const userData = { id: 1 };
+      const user: Partial<User> = { id: 1, email: 'testuser@gmail.com' };
 
-    await expect(service.login(loginDto)).rejects.toThrow(
-      UnauthorizedException,
-    );
+      userService.findOne.mockResolvedValue(user as User);
+
+      const result = await authService.validateUserById(userData);
+
+      expect(userService.findOne).toHaveBeenCalledWith(userData);
+      expect(result).toEqual(user);
+    });
+  });
+
+  describe('signUp', () => {
+    it('should call UsersService.create with correct parameters and return the result', async () => {
+      const signupDto: Partial<User> = {
+        email: 'testuser@gmail.com',
+        password: 'password123',
+      };
+      const createdUser: Partial<User> = { id: 1, email: 'testuser@gmail.com' };
+
+      userService.create.mockResolvedValue(createdUser as User);
+
+      const result = await authService.signUp(signupDto);
+
+      expect(userService.create).toHaveBeenCalledWith(signupDto);
+      expect(result).toEqual(createdUser);
+    });
+
+    it('should remove roles from signupDto before calling UsersService.create', async () => {
+      const signupDto: Partial<User> = {
+        email: 'testuser@gmail.com',
+        password: 'password123',
+        roles: [UserRole.ADMIN],
+      };
+      const createdUser: Partial<User> = { id: 1, email: 'testuser@gmail.com' };
+
+      userService.create.mockResolvedValue(createdUser as User);
+
+      const result = await authService.signUp(signupDto);
+
+      expect(userService.create).toHaveBeenCalledWith({
+        email: 'testuser@gmail.com',
+        password: 'password123',
+      });
+      expect(result).toEqual(createdUser);
+    });
+  });
+
+  describe('login', () => {
+    it('should call UsersService.signIn and JwtService.sign with correct parameters and return the result', async () => {
+      const loginDto: Partial<User> = {
+        email: 'testuser@gmail.com',
+        password: 'password123',
+      };
+      const userResult: Partial<User> = { id: 1, email: 'testuser@gmail.com' };
+      const accessToken = 'mockedAccessToken';
+
+      userService.signIn.mockResolvedValue(userResult as User);
+      jwtService.sign.mockReturnValue(accessToken);
+
+      const result = await authService.login(loginDto);
+
+      expect(userService.signIn).toHaveBeenCalledWith(loginDto);
+      expect(jwtService.sign).toHaveBeenCalledWith({ userResult });
+      expect(result).toEqual({
+        user: userResult,
+        accessToken,
+      });
+    });
+
+    it('should throw UnauthorizedException if signIn returns null', async () => {
+      const loginDto: Partial<User> = {
+        email: 'invaliduser@email.com',
+        password: 'wrongpassword',
+      };
+
+      userService.signIn.mockResolvedValue(null);
+
+      await expect(authService.login(loginDto)).rejects.toThrow(
+        new UnauthorizedException('Invalid Credentials!'),
+      );
+    });
   });
 });
